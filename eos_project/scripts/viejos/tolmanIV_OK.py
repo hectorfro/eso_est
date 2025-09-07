@@ -27,14 +27,11 @@ class TolmanIV:
         R2 = self.R**2
         
         # Términos de la ecuación (6.3) de Tolman
-        numerator1 = 1 - A2/R2 - 3*r2/R2
-        denominator1 = A2 * (1 + 2*r2/A2)
-        
-        numerator2 = 2 * (1 - r2/R2)
-        denominator2 = A2 * (1 + 2*r2/A2)**2
-        
+        numerador = 1 - A2/R2 - 3*r2/R2
+        denominador = A2 * (1 + 2*r2/A2)
+    
         # 8πp = term1 - term2
-        eight_pi_p = numerator1/denominator1
+        eight_pi_p = numerador/denominador
         
         return eight_pi_p / (8 * np.pi)
     
@@ -44,12 +41,12 @@ class TolmanIV:
         A2 = self.A**2
         R2 = self.R**2
         
-        numerator = 1 + 3*A2/R2 + 3*r2/R2
-        denominator = A2 * (1 + 2*r2/A2)
-        numerator2 = 2 * (1 - r2/R2)
-        denominator2 = A2 * (1 + 2*r2/A2)**2
+        numerador1 = 1 + 3*A2/R2 + 3*r2/R2
+        denominador1 = A2 * (1 + 2*r2/A2)
+        numerador2 = 2 * (1 - r2/R2)
+        denominador2 = A2 * (1 + 2*r2/A2)**2
        
-        eight_pi_rho = numerator / denominator + numerator2 / denominator2 
+        eight_pi_rho = numerador1 / denominador1 + numerador2 / denominador2 
         return eight_pi_rho / (8 * np.pi)
     
     def find_valid_parameters(self):
