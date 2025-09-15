@@ -44,6 +44,22 @@ class TolmanIV:
         rb = (self.R / np.sqrt(3)) * np.sqrt(1 - A2/R2)
         return rb
     
+    def total_mass(self):
+        """Masa total de la estrella - ecuación del paper"""
+        rb = self.boundary_radius()
+        if rb <= 0:
+          return 0
+        
+        rb2 = rb**2
+        A2 = self.A**2
+        R2 = self.R**2
+    
+        numerator = (1 - rb2/R2) * (1 + rb2/A2)
+        denominator = 1 + 2*rb2/A2
+    
+        m = (rb/2) * (1 - numerator/denominator)
+        return m
+
     # ===== FIN DE ECUACIONES FUNDAMENTALES =====
     
     def generate_data(self, n_points=100):
@@ -51,7 +67,7 @@ class TolmanIV:
         rb = self.boundary_radius()
         if rb <= 0:
             return None
-        
+           
         r_values = np.linspace(0, rb * 0.999, n_points)
         
         data = []
@@ -64,7 +80,7 @@ class TolmanIV:
                     'r': r,
                     'rho': rho,
                     'p': p,
-                    'p_over_rho': p/rho
+                    'p_over_rho': p/rho  
                 })
         
         return pd.DataFrame(data)
@@ -82,6 +98,7 @@ class TolmanIV:
         df.to_csv(full_path, index=False)
         
         return full_path
+
 
 
 def main():
@@ -121,8 +138,9 @@ def main():
                 pc = tolman.pressure(0)
                 rhoc = tolman.density(0)
                 rb = tolman.boundary_radius()
+                mass = tolman.total_mass()  # Nueva línea
                 print(f"  pc(0) = {pc:.4e}, ρc(0) = {rhoc:.4e}")
-                print(f"  rb = {rb:.4f}")
+                print(f"  rb = {rb:.4f}, m = {mass:.4f}")  
             else:
                 print(f"  ✗ No se pudieron generar datos")
                 
